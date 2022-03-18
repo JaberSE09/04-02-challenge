@@ -17,10 +17,10 @@
   <h3>High Score: <span id="score"></span></h2>
 
   <script>
-    const champ = JSON.parse(localStorage.getItem('memoryGameChamp'))
+    const champ = JSON.parse(localStorage.getItem('jsQuiz'))
     if (champ) {
       document.getElementById('initials').innerText = champ.initials
-      document.getElementById('score').innerText = champ.score
+      document.getElementById('score').innerText = champ.grade +"%"
     }
   </script>
 </body>

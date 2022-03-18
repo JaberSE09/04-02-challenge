@@ -10,12 +10,12 @@ var choiceA = document.getElementById("A")
 var choiceB = document.getElementById("B")
 var choiceC = document.getElementById("C")
 var choiceD = document.getElementById("D")
-var score = document.getElementById("score")
+var scoreEl = document.getElementById("score")
 var time = 60
 var intervalId
-var scoreTime = 0
+var score = 0
 var currentQuestion = 0
-
+var grade = 0
 
 var questions = [
 
@@ -58,6 +58,7 @@ function getQuestion() {
     choiceD.innerHTML = q.choiceD
 }
 
+
     function timer() {
         clearInterval(intervalId)
         intervalId = setInterval(function () {
@@ -70,20 +71,26 @@ function getQuestion() {
     }
 
     function gameOver() {
+        grade = Math.ceil(100 * (score / questions.length))
         clearInterval(intervalId)
         var initials = prompt('Game over! Initials pls')
         const champ = JSON.parse(localStorage.getItem('jsQuiz'))
-        if (!champ || champ.score < score) {
+
+        if(!champ || champ.grade < grade){
             localStorage.setItem('jsQuiz', JSON.stringify({
                 initials,
-                score
+                grade
             }))
-        }
+            }
+        
 
         // TODO save score
         var playAgain = confirm('Want to play again?')
         if (playAgain) {
             window.location.reload()
+        }
+        else{
+            window.location.href = "highscore.html"
         }
     }
 
@@ -97,7 +104,7 @@ function getQuestion() {
             getQuestion()
     
         }
-        else{
+        else{   
             gameOver();
         }
     } 
