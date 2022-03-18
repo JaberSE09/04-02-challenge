@@ -63,7 +63,7 @@ function getQuestion() {
         clearInterval(intervalId)
         intervalId = setInterval(function () {
             time--
-            timeEl.innerText = time
+            timeEl.innerText ="Time: " + time
             if (time === 0) {
                 gameOver()
             }
@@ -112,8 +112,9 @@ function getQuestion() {
     header.style.display = "none"
     start.style.display = "none"
     getQuestion()
+    timeEl.style.display = "flex"
     timer()
-    quiz.style.display= "block";
+    quiz.style.display= "block"
     }
 
 //start
