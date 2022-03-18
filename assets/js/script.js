@@ -1,0 +1,12 @@
+//global var
+
+
+
+
+//functions
+
+
+
+
+
+//start
