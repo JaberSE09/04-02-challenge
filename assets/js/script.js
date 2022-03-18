@@ -3,7 +3,7 @@ var header = document.getElementById("header")
 var quiz = document.getElementById("quiz")
 var start = document.getElementById("start")
 var highscore = document.getElementById("highscore")
-var time = document.getElementById("time")
+var timeEl = document.getElementById("time")
 var question = document.getElementById("question")
 var choices = document.getElementById("choices")
 var choiceA = document.getElementById("A")
@@ -14,7 +14,7 @@ var score = document.getElementById("score")
 var time = 60
 var intervalId
 var scoreTime = 0
-var currentQuestion = 0;
+var currentQuestion = 0
 
 
 var questions = [
@@ -47,7 +47,7 @@ var questions = [
     }
 
 ];
-
+var questionlength = questions.length-1
 //functions
 function getQuestion() {
     let q = questions[currentQuestion];
@@ -58,17 +58,11 @@ function getQuestion() {
     choiceD.innerHTML = q.choiceD
 }
 
-function updateScore() 
-    {
-        scoreTime++
-        score.innerText = scoreTime
-    }
-
     function timer() {
         clearInterval(intervalId)
         intervalId = setInterval(function () {
             time--
-            countdownEl.innerText = time
+            timeEl.innerText = time
             if (time === 0) {
                 gameOver()
             }
@@ -78,9 +72,9 @@ function updateScore()
     function gameOver() {
         clearInterval(intervalId)
         var initials = prompt('Game over! Initials pls')
-        const champ = JSON.parse(localStorage.getItem('memoryGameChamp'))
+        const champ = JSON.parse(localStorage.getItem('jsQuiz'))
         if (!champ || champ.score < score) {
-            localStorage.setItem('memoryGameChamp', JSON.stringify({
+            localStorage.setItem('jsQuiz', JSON.stringify({
                 initials,
                 score
             }))
@@ -94,13 +88,24 @@ function updateScore()
     }
 
     function checkAnswer(answer){
-
-
-    }   
+        if(answer == questions[currentQuestion].correct){
+           score ++;  
+        }
+    
+        if (currentQuestion < questionlength) {
+            currentQuestion++;
+            getQuestion()
+    
+        }
+        else{
+            gameOver();
+        }
+    } 
     function startQuiz(){
     header.style.display = "none"
     start.style.display = "none"
     getQuestion()
+    timer()
     quiz.style.display= "block";
     }
 
