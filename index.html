@@ -23,13 +23,19 @@
              <div id="quiz">
                  
                  <div id="question"></div>
-                 <div id="choices">
+                 <div id="choices" style="display: none;">
                      <div class="choice" id="A" onclick="checkAnswer('A')"></div>
                      <div class="choice" id="B" onclick="checkAnswer('B')"></div>
                      <div class="choice" id="C" onclick="checkAnswer('C')"></div>
                      <div class="choice" id="D" onclick="checkAnswer('D')"></div>
                      <div id="score"></div>
                  </div>
+             </div>
+             <div id="finished" style="display: none;">
+                <h2>All Done!</h2>
+                 <label>Enter initials: </label>
+                 <input type="text" id="first_name" name="first_name" />
+                 <button id="btn">Submit</button>
              </div>
     </header>
     <script src="./assets/js/script.js"></script>

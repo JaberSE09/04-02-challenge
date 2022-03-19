@@ -10,6 +10,7 @@ var choiceA = document.getElementById("A")
 var choiceB = document.getElementById("B")
 var choiceC = document.getElementById("C")
 var choiceD = document.getElementById("D")
+var finished = document.getElementById("finished")
 var scoreEl = document.getElementById("score")
 var time = 60
 var intervalId
@@ -22,100 +23,105 @@ var questions = [
     {
         question: "What does HTML stand for?",
 
-        choiceA: "Correct",
-        choiceB: "Wrong",
-        choiceC: "Wrong",
-        choiceD: "Wrong",
+        choiceA: "Hypertext Markup Language",
+        choiceB: "JavaScript",
+        choiceC: "Hypertext Markup",
+        choiceD: "Hyper Text Make Language",
         correct: "A"
 
     }, {
 
         question: "What does CSS stand for?",
-        choiceA: "Wrong",
-        choiceB: "Correct",
-        choiceC: "Wrong",
-        choiceD: "Wrong",
+        choiceA: "Cascading Sheets",
+        choiceB: "Cascading Style Sheets",
+        choiceC: "none",
+        choiceD: "All",
         correct: "B"
     }, {
 
         question: "What does JS stand for?",
-        choiceA: "Wrong",
-        choiceB: "Wrong",
-        choiceC: "Correct",
-        choiceD: "Wrong",
+        choiceA: "all",
+        choiceB: "none",
+        choiceC: "JavaScript",
+        choiceD: "EA",
         correct: "C"
     }
 
 ];
-var questionlength = questions.length-1
+var questionlength = questions.length - 1
 //functions
 function getQuestion() {
     let q = questions[currentQuestion];
-    question.innerHTML = "<p>"+ q.question +"</p>"
-    choiceA.innerHTML = q.choiceA
-    choiceB.innerHTML = q.choiceB
-    choiceC.innerHTML = q.choiceC
-    choiceD.innerHTML = q.choiceD
+    question.innerHTML = "<p>"+ q.question + "</p>"
+    choiceA.innerHTML = "1. " + q.choiceA
+    choiceB.innerHTML = "2. " + q.choiceB
+    choiceC.innerHTML = "3. " + q.choiceC
+    choiceD.innerHTML = "4. " + q.choiceD
 }
 
 
-    function timer() {
-        clearInterval(intervalId)
-        intervalId = setInterval(function () {
-            time--
-            timeEl.innerText ="Time: " + time
-            if (time === 0) {
-                gameOver()
-            }
-        }, 1000)
+function finish() {
+    var btn = document.getElementById('btn')
+    btn.addEventListener('click', function handleClick(event) {
+        event.preventDefault();
+
+        var initialsInput = document.getElementById('first_name');
+        return initialsInput.value
+
+    });
+}
+function timer() {
+    clearInterval(intervalId)
+    intervalId = setInterval(function () {
+        time--
+        timeEl.innerText = "Time: " + time
+        if (time === 0) {
+            gameOver()
+        }
+    }, 1000)
+}
+
+function gameOver() {
+    clearInterval(intervalId)
+    grade = Math.ceil(100 * (score / questions.length))
+    quiz.style.display = "none"
+    finished.style.display = "block"
+    var initials = finish()
+
+
+    const champ = JSON.parse(localStorage.getItem('jsQuiz'))
+
+    if (!champ || champ.grade < grade) {
+        localStorage.setItem('jsQuiz', JSON.stringify({
+            initials,
+            grade
+        }))
+    }
+}
+
+function checkAnswer(answer) {
+    if (answer == questions[currentQuestion].correct) {
+        score++;
     }
 
-    function gameOver() {
-        grade = Math.ceil(100 * (score / questions.length))
-        clearInterval(intervalId)
-        var initials = prompt('Game over! Initials pls')
-        const champ = JSON.parse(localStorage.getItem('jsQuiz'))
+    if (currentQuestion < questionlength) {
+        currentQuestion++;
+        getQuestion()
 
-        if(!champ || champ.grade < grade){
-            localStorage.setItem('jsQuiz', JSON.stringify({
-                initials,
-                grade
-            }))
-            }
-        
-
-        // TODO save score
-        var playAgain = confirm('Want to play again?')
-        if (playAgain) {
-            window.location.reload()
-        }
-        else{
-            window.location.href = "highscore.html"
-        }
     }
-
-    function checkAnswer(answer){
-        if(answer == questions[currentQuestion].correct){
-           score ++;  
-        }
-    
-        if (currentQuestion < questionlength) {
-            currentQuestion++;
-            getQuestion()
-    
-        }
-        else{   
-            gameOver();
-        }
-    } 
-    function startQuiz(){
+    else {
+        gameOver();
+    }
+}
+function startQuiz() {
     header.style.display = "none"
     start.style.display = "none"
     getQuestion()
-    timeEl.style.display = "flex"
+    
     timer()
-    quiz.style.display= "block"
-    }
+    quiz.style.display = "block"
+    choices.style.display= "block"
+}
 
 //start
-start.addEventListener("click" , startQuiz)
+start.addEventListener("click", startQuiz)
