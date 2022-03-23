@@ -11,7 +11,7 @@
 <body>
     <header>
         <nav class="nav">
-        <a class="nav-item" href="highscore.html">View High Score</a> 
+        <a class="nav-item"">View High Score</a> 
         <div class="nav-item" id="time"></div>
     </nav>
         <div id="header">
@@ -23,20 +23,31 @@
              <div id="quiz">
                  
                  <div id="question"></div>
-                 <div id="choices" style="display: none;">
-                     <div class="choice" id="A" onclick="checkAnswer('A')"></div>
-                     <div class="choice" id="B" onclick="checkAnswer('B')"></div>
-                     <div class="choice" id="C" onclick="checkAnswer('C')"></div>
-                     <div class="choice" id="D" onclick="checkAnswer('D')"></div>
-                     <div id="score"></div>
-                 </div>
+                 <div id="choices" class="gap-1" style="display: none;">
+                     <button class="choice d-flex btn-outline-danger" id="A" onclick="checkAnswer('A')"></button>
+                     <button class="choice d-flex btn-outline-danger" id="B" onclick="checkAnswer('B')"></button>
+                     <button class="choice d-flex btn-outline-danger" id="C" onclick="checkAnswer('C')"></button>
+                     <button class="choice d-flex btn-outline-danger" id="D" onclick="checkAnswer('D')"></button>
+                </div>
              </div>
              <div id="finished" style="display: none;">
                 <h2>All Done!</h2>
+                <p id="yourScore">Yor Score is: </p>
                  <label>Enter initials: </label>
-                 <input type="text" id="first_name" name="first_name" />
-                 <button id="btn">Submit</button>
+                 <input type="text" id="initials" name="initials" />
+                 <button id="submit" class="btn">Submit</button>
              </div>
+
+             <div id="highscore" style="display: none;"><h1>
+              High Score
+             </h1>
+
+             <button type="button" class="btn btn-primary btn-lg" id="goBack">Go Back</button>
+             <button type="button" class="btn btn-primary btn-lg" id="clear">Clear Scores</button>
+            
+            <div id="scores"></div>
+            
+            </div>
     </header>
     <script src="./assets/js/script.js"></script>
 </body>

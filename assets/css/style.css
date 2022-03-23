@@ -35,6 +35,11 @@ padding: 20px;
   left: 150px;
   font-size: 20px;
 }
-.choice{
+.choice , #hs{
   margin: 20px;
 }
+#highscore{
+  text-align: center;
+}
+
+

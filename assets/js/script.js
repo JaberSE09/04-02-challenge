@@ -2,7 +2,7 @@
 var header = document.getElementById("header")
 var quiz = document.getElementById("quiz")
 var start = document.getElementById("start")
-var highscore = document.getElementById("highscore")
+var highscoreEl = document.getElementById("highscore")
 var timeEl = document.getElementById("time")
 var question = document.getElementById("question")
 var choices = document.getElementById("choices")
@@ -11,13 +11,14 @@ var choiceB = document.getElementById("B")
 var choiceC = document.getElementById("C")
 var choiceD = document.getElementById("D")
 var finished = document.getElementById("finished")
-var scoreEl = document.getElementById("score")
+var choicesBtn = document.getElementById("choicesBtn")
 var time = 60
 var intervalId
 var score = 0
 var currentQuestion = 0
 var grade = 0
-
+var high = []
+var scoresEl=document.getElementById("scores")
 var questions = [
 
     {
@@ -49,31 +50,92 @@ var questions = [
 
 ];
 var questionlength = questions.length - 1
+
 //functions
 function getQuestion() {
     let q = questions[currentQuestion];
-    question.innerHTML = "<p>"+ q.question + "</p>"
+    question.innerHTML = "<p>" + q.question + "</p>"
     choiceA.innerHTML = "1. " + q.choiceA
     choiceB.innerHTML = "2. " + q.choiceB
     choiceC.innerHTML = "3. " + q.choiceC
     choiceD.innerHTML = "4. " + q.choiceD
 }
 
+function userInput() {
+    var yourScore = document.getElementById('yourScore')
+    yourScore.innerHTML += grade
+    var btn = document.getElementById('submit')
+    btn.addEventListener("click", function () {
 
-function finish() {
-    var btn = document.getElementById('btn')
-    btn.addEventListener('click', function handleClick(event) {
-        event.preventDefault();
+        var initials = document.getElementById("initials").value.trim()
 
-        var initialsInput = document.getElementById('first_name');
-        return initialsInput.value
+        var userScore = {initials: initials , grade: grade}
 
-    });
+        high = JSON.parse(localStorage.getItem("scores")) || [];
+        high.push(userScore)
+        console.log(high)
+        localStorage.setItem("scores", JSON.stringify(high));
+        scores()
+
+
+    })
+
 }
+function finish() {
+    userInput()
+
+    goback()
+    clear()
+}
+function clear() {
+    var clear = document.getElementById("clear")
+    clear.addEventListener("click", function () {
+        high = []
+        localStorage.setItem("scores", JSON.stringify(high));
+        console.log(localStorage)
+        scoresEl.innerHTML= ""
+        scores()
+        reset()
+    })
+}
+
+
+function reset(){
+    grade = 0;
+    currentQuestion = 0;
+    timer = 0;
+    timeEl.textContent = "Time: " + 0;
+}
+
+function goback(){
+    goback = document.getElementById("goBack")
+    goback.addEventListener("click" , function(){
+        location.reload()
+    })
+}
+
+
+function scores() {
+    finished.style.display = "none"
+    scoresEl.innerHTML=""
+
+    high = JSON.parse(localStorage.getItem("scores"));
+    for (var i = 0; i < high.length; i++) {
+        var scoreItem=  document.createElement("p")
+        scoreItem.className += "row d-flex justify-content-center btn btn-danger"
+        scoreItem.id = "hs"
+        console.log(scoreItem)
+        scoreItem.textContent = (i + 1) + ". " + high[i].initials + " - " + high[i].grade
+        scoresEl.append(scoreItem)
+    }
+    highscoreEl.style.display = "block"
+}
+
 function timer() {
     clearInterval(intervalId)
     intervalId = setInterval(function () {
         time--
+        timeEl.style.display = "block"
         timeEl.innerText = "Time: " + time
         if (time === 0) {
             gameOver()
@@ -85,23 +147,16 @@ function gameOver() {
     clearInterval(intervalId)
     grade = Math.ceil(100 * (score / questions.length))
     quiz.style.display = "none"
+    finish()
     finished.style.display = "block"
-    var initials = finish()
 
-
-    const champ = JSON.parse(localStorage.getItem('jsQuiz'))
-
-    if (!champ || champ.grade < grade) {
-        localStorage.setItem('jsQuiz', JSON.stringify({
-            initials,
-            grade
-        }))
-    }
 }
 
 function checkAnswer(answer) {
     if (answer == questions[currentQuestion].correct) {
         score++;
+    } else {
+        time -= 10
     }
 
     if (currentQuestion < questionlength) {
@@ -116,11 +171,11 @@ function checkAnswer(answer) {
 function startQuiz() {
     header.style.display = "none"
     start.style.display = "none"
+    choices.style.display = "none"
     getQuestion()
-    
     timer()
     quiz.style.display = "block"
-    choices.style.display= "block"
+    choices.style.display = "block"
 }
 
 //start
