@@ -121,7 +121,7 @@ function scores() {
     high = JSON.parse(localStorage.getItem("scores"));
     for (var i = 0; i < high.length; i++) {
         var scoreItem = document.createElement("p")
-        scoreItem.className += "row d-flex justify-content-center btn btn-danger"
+        scoreItem.className += "row mb-3 p-2"
         scoreItem.id = "hs"
         console.log(scoreItem)
         scoreItem.textContent = (i + 1) + ". " + high[i].initials + " - " + high[i].grade
