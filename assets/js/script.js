@@ -18,7 +18,7 @@ var score = 0
 var currentQuestion = 0
 var grade = 0
 var high = []
-var scoresEl=document.getElementById("scores")
+var scoresEl = document.getElementById("scores")
 var questions = [
 
     {
@@ -69,7 +69,7 @@ function userInput() {
 
         var initials = document.getElementById("initials").value.trim()
 
-        var userScore = {initials: initials , grade: grade}
+        var userScore = { initials: initials, grade: grade }
 
         high = JSON.parse(localStorage.getItem("scores")) || [];
         high.push(userScore)
@@ -83,7 +83,6 @@ function userInput() {
 }
 function finish() {
     userInput()
-
     goback()
     clear()
 }
@@ -93,23 +92,23 @@ function clear() {
         high = []
         localStorage.setItem("scores", JSON.stringify(high));
         console.log(localStorage)
-        scoresEl.innerHTML= ""
+        scoresEl.innerHTML = ""
         scores()
         reset()
     })
 }
 
 
-function reset(){
+function reset() {
     grade = 0;
     currentQuestion = 0;
     timer = 0;
     timeEl.textContent = "Time: " + 0;
 }
 
-function goback(){
+function goback() {
     goback = document.getElementById("goBack")
-    goback.addEventListener("click" , function(){
+    goback.addEventListener("click", function () {
         location.reload()
     })
 }
@@ -117,11 +116,11 @@ function goback(){
 
 function scores() {
     finished.style.display = "none"
-    scoresEl.innerHTML=""
+    scoresEl.innerHTML = ""
 
     high = JSON.parse(localStorage.getItem("scores"));
     for (var i = 0; i < high.length; i++) {
-        var scoreItem=  document.createElement("p")
+        var scoreItem = document.createElement("p")
         scoreItem.className += "row d-flex justify-content-center btn btn-danger"
         scoreItem.id = "hs"
         console.log(scoreItem)
