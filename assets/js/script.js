@@ -19,6 +19,8 @@ var currentQuestion = 0
 var grade = 0
 var high = []
 var scoresEl = document.getElementById("scores")
+
+//question list
 var questions = [
 
     {
@@ -49,6 +51,8 @@ var questions = [
     }
 
 ];
+
+//question length
 var questionlength = questions.length - 1
 
 //functions
@@ -60,7 +64,7 @@ function getQuestion() {
     choiceC.innerHTML = "3. " + q.choiceC
     choiceD.innerHTML = "4. " + q.choiceD
 }
-
+//gets user input and displays score 
 function userInput() {
     var yourScore = document.getElementById('yourScore')
     yourScore.innerHTML += grade
@@ -81,11 +85,15 @@ function userInput() {
     })
 
 }
+
+//runs when done taking quiz
 function finish() {
     userInput()
     goback()
     clear()
 }
+
+//clears high score
 function clear() {
     var clear = document.getElementById("clear")
     clear.addEventListener("click", function () {
@@ -98,21 +106,21 @@ function clear() {
     })
 }
 
-
+//resets scores
 function reset() {
     grade = 0;
     currentQuestion = 0;
     timer = 0;
     timeEl.textContent = "Time: " + 0;
 }
-
+//goes back to start
 function goback() {
     goback = document.getElementById("goBack")
     goback.addEventListener("click", function () {
         location.reload()
     })
 }
-
+//highscore link function
 function highScoreLink(){
     var highScoreLink1 = document.getElementById("highscorelink")
         highScoreLink1.addEventListener("click" , function (){
@@ -126,6 +134,7 @@ function highScoreLink(){
    })
 }
 
+//scores display
 function scores() {
     finished.style.display = "none"
     scoresEl.innerHTML = ""
@@ -135,13 +144,12 @@ function scores() {
         var scoreItem = document.createElement("p")
         scoreItem.className += "mb-3 p-2 text-center" 
         scoreItem.id = "hs"
-        console.log(scoreItem)
         scoreItem.textContent = (i + 1) + ". " + high[i].initials + " - " + high[i].grade
         scoresEl.append(scoreItem)
     }
     highscoreEl.style.display = "block"
 }
-
+//time set
 function timer() {
     clearInterval(intervalId)
     intervalId = setInterval(function () {
@@ -154,6 +162,7 @@ function timer() {
     }, 1000)
 }
 
+//when game ends display highscore
 function gameOver() {
     clearInterval(intervalId)
     grade = Math.ceil(100 * (score / questions.length))
@@ -179,6 +188,8 @@ function checkAnswer(answer) {
         gameOver();
     }
 }
+
+//starting function
 function startQuiz() {
     header.style.display = "none"
     start.style.display = "none"
