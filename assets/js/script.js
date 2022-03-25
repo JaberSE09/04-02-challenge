@@ -113,6 +113,18 @@ function goback() {
     })
 }
 
+function highScoreLink(){
+    var highScoreLink1 = document.getElementById("highscorelink")
+        highScoreLink1.addEventListener("click" , function (){
+        header.style.display="none"
+        quiz.style.display="none"
+        finished.style.display="none"
+        highscoreEl.style.display="block"
+        scores() 
+        goback()
+        clear()
+   })
+}
 
 function scores() {
     finished.style.display = "none"
@@ -176,6 +188,6 @@ function startQuiz() {
     quiz.style.display = "block"
     choices.style.display = "block"
 }
-
 //start
 start.addEventListener("click", startQuiz)
+highScoreLink()
